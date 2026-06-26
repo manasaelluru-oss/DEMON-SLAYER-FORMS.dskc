@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demon Slayer: Breathing Style Codex</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+        }
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        .nichirin-glow {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+        .breathing-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .breathing-card:hover {
+            transform: translateY(-4px);
+        }
+        /* Custom scrollbar styling for dynamic lists */
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(24, 24, 27, 0.5);
+            border-radius: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: rgba(63, 63, 70, 0.8);
+            border-radius: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: rgba(82, 82, 91, 1);
+        }
+        /* Hide scrollbars for the filter list */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen pb-12">
+
+    <!-- Header Section -->
+    <header class="relative border-b border-red-900/40 bg-black/40 backdrop-blur-md py-6 mb-8">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="font-cinzel text-3xl md:text-4xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 uppercase">
+                    Breathing Codex
+                </h1>
+                <p class="text-xs md:text-sm text-gray-400 font-medium tracking-wide uppercase mt-1">
+                    Establishment of the Corps • Tactical Form Lookup
+                </p>
+            </div>
+            <!-- Interactive Squad Quick Tag -->
+            <div class="flex items-center gap-2 bg-zinc-900/80 px-4 py-2 rounded-full border border-zinc-800 nichirin-glow">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-xs font-semibold tracking-wider text-zinc-300 uppercase">Slayer Status: Active</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content App Container -->
+    <main class="max-w-6xl mx-auto px-4">
+        
+        <!-- Interactive Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <!-- Search Bar -->
+            <div class="relative md:col-span-1">
+                <input type="text" id="formSearch" oninput="filterForms()" placeholder="Search form or style (e.g., Dance, Water)..." 
+                       class="w-full bg-zinc-900/90 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange-500 text-white transition-colors">
+            </div>
+            
+            <!-- Breathing Style Filters -->
+            <div class="md:col-span-2 flex gap-2 overflow-x-auto pb-2 scrollbar-none" id="styleFilters">
+                <button onclick="filterStyle('all')" data-style="all" class="filter-btn bg-orange-600 text-white text-xs font-bold tracking-wider uppercase px-4 py-3 rounded-xl transition-all whitespace-nowrap">
+                    All Styles
+                </button>
+                <!-- Dynamic buttons will inherit highlights here -->
+            </div>
+        </div>
+
+        <!-- Forms Display Grid -->
+        <div id="codexGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- JavaScript dynamically injects the style cards here -->
+        </div>
+    </main>
+
+    <!-- Data Script Containing the Lore & Forms -->
+    <script>
+        const breathingData = [
+            {
+                style: "Sun Breathing",
+                origin: "Yoriichi Tsugikuni",
+                color: "from-red-600 via-orange-500 to-yellow-500",
+                shadow: "rgba(239, 68, 68, 0.4)",
+                forms: [
+                    { number: "1st Form", name: "Dance", desc: "A high-powered vertical slash executed in a fluid, dancing motion." },
+                    { number: "2nd Form", name: "Clear Blue Sky", desc: "The user spins their body vertically to create a 360-degree continuous slash." },
+                    { number: "3rd Form", name: "Raging Sun", desc: "Unleashes two horizontal slashes to defend against or attack oncoming targets." },
+                    { number: "4th Form", name: "Burning Sun, Crimson Mirror", desc: "A continuous circular defensive slash that deflects multi-angled attacks." },
+                    { number: "5th Form", name: "Setting Sun Transformation", desc: "The user flips backward into the air to unleash a powerful backflip sword strike." },
+                    { number: "6th Form", name: "Solar Heat Haze", desc: "The blade appears enveloped in a hazy heat mist, masking the true length and trajectory of the strike." },
+                    { number: "7th Form", name: "Beneficent Radiance", desc: "The user leaps into the air to deliver a spiraling, multi-layered aerial assault." },
+                    { number: "8th Form", name: "Sunflower Thrust", desc: "A singular, hyper-focused thrust strike utilizing the tip of the Nichirin blade." },
+                    { number: "9th Form", name: "Dragon Sun Halo Head Dance", desc: "An ultra-fast, continuous combination of slashes resembling a flaming dragon, capable of decapitating multiple enemies at once." },
+                    { number: "10th Form", name: "Fire Wheel", desc: "The user leaps behind the opponent and spins in the air while releasing a fiery circular cut." },
+                    { number: "11th Form", name: "Fake Rainbow", desc: "An advanced evasion technique utilizing high-speed twists and rotations to create afterimages." },
+                    { number: "12th Form", name: "Flame Dance", desc: "A two-strike combo starting with a vertical slash, immediately followed by a powerful horizontal sweep." },
+                    { number: "13th Form", name: "The Thirteenth Form", desc: "The ultimate form. The user continuously loops all previous twelve forms in rapid succession to increase accuracy, speed, and agility while breaking a demon's cells." }
+                ]
+            },
+            {
+                style: "Water Breathing",
+                origin: "Sakonji Urokodaki / Giyu Tomioka",
+                color: "from-blue-600 via-cyan-500 to-sky-400",
+                shadow: "rgba(59, 130, 246, 0.4)",
+                forms: [
+                    { number: "1st Form", name: "Water Surface Slash", desc: "A singular, concentrated horizontal slash creating a fluid wave movement." },
+                    { number: "2nd Form", name: "Water Wheel", desc: "The user leaps and spins vertically, unleashing a circular, continuous cutting motion." },
+                    { number: "3rd Form", name: "Flowing Dance", desc: "The user swiftly moves and curves their blade in a winding pattern, mimicking a flowing river." },
+                    { number: "4th Form", name: "Striking Tide", desc: "Multiple consecutive slashes while twisting the body, striking down targets like a harsh tide." },
+                    { number: "5th Form", name: "Blessed Rain After the Drought", desc: "A merciful sword strike that kills the target with little to no pain, used when an enemy surrenders willingly." },
+                    { number: "6th Form", name: "Whirlpool", desc: "The user fiercely twists their upper and lower body, creating a massive whirlpool slash that cuts anything in its radius." },
+                    { number: "7th Form", name: "Drop Ripple Thrust", desc: "A rapid, precise stab technique designed to mitigate the impact of moving targets." },
+                    { number: "8th Form", name: "Waterfall Basin", desc: "A devastating vertical cut dropped down onto the target, crushing down like water crashing into a basin." },
+                    { number: "9th Form", name: "Splashing Water Flow", desc: "Minimizes the landing time and surface needed when moving, allowing the user to fight without limits on unstable ground." },
+                    { number: "10th Form", name: "Constant Flux", desc: "A continuous, looping fluid attack that takes the form of a water dragon, gaining raw momentum and power with every rotation." },
+                    { number: "11th Form", name: "Dead Calm", desc: "Giyu Tomioka's exclusive creation. The user enters a state of absolute tranquility, deflecting and nullifying any incoming attacks at imperceptible speeds." }
+                ]
+            },
+            {
+    style: "Mist Breathing",
+    origin: "Muichiro Tokito",
+    color: "from-slate-400 via-cyan-300 to-gray-100",
+    shadow: "rgba(148, 163, 184, 0.4)",
+    forms: [
+        {
+            number: "1st Form",
+            name: "Low Clouds, Distant Haze",
+            desc: "A swift forward thrust that pierces the target before they can react."
+        },
+        {
+            number: "2nd Form",
+            name: "Eight-Layered Mist",
+            desc: "Eight rapid slashes delivered almost simultaneously from different angles."
+        },
+        {
+            number: "3rd Form",
+            name: "Scattering Mist Splash",
+            desc: "A circular barrage of sword strikes that cuts down everything surrounding the user."
+        },
+        {
+            number: "4th Form",
+            name: "Shifting Flow Slash",
+            desc: "A flowing slash that redirects enemy attacks while seamlessly counterattacking."
+        },
+        {
+            number: "5th Form",
+            name: "Sea of Clouds and Haze",
+            desc: "The user greatly slows their movements before suddenly accelerating, confusing the opponent with unpredictable speed."
+        },
+        {
+            number: "6th Form",
+            name: "Lunar Dispersing Mist",
+            desc: "A wide-range spinning slash that creates countless mist-like afterimages."
+        },
+        {
+            number: "7th Form",
+            name: "Obscuring Clouds",
+            desc: "Muichiro Tokito's personal technique. The user's speed fluctuates between extremely slow and unbelievably fast, creating the illusion of vanishing into thick mist before delivering the decisive strike."
+        }
+    ]
+},
+            {
+                style: "Thunder Breathing",
+                origin: "Jigoro Kuwajima / Zenitsu Agatsuma",
+                color: "from-yellow-500 via-amber-400 to-yellow-300",
+                shadow: "rgba(234, 179, 8, 0.4)",
+                forms: [
+                    { number: "1st Form", name: "Thunderclap and Flash", desc: "The foundational dash attack. The user sprints forward and slashes their opponent at blinding speed. Can be chained into Prime extensions (Six Fold, Eight Fold, God Speed)." },
+                    { number: "2nd Form", name: "Rice Spirit", desc: "Unleashes five fast, overlapping arching sword strikes in a single burst." },
+                    { number: "3rd Form", name: "Thunder Swarm", desc: "Surrounds the enemy with a continuous wave of electrical, multi-directional slashes." },
+                    { number: "4th Form", name: "Distant Thunder", desc: "Generates a localized multi-strike electrical field extending outwards toward the target." },
+                    { number: "5th Form", name: "Heat Lightning", desc: "A focused, long-range upward strike crackling with electrical power." },
+                    { number: "6th Form", name: "Rumble and Flash", desc: "A chaotic series of powerful lightning-infused slashes coming from every vector." },
+                    { number: "7th Form", name: "Honoikazuchi no Kami", desc: "Zenitsu's original form. The user dashes forward at speeds transcending sound, materializing a colossal dragon of golden lightning to pierce the target instantly." }
+                ]
+            },
+            {
+                style: "Flame Breathing",
+                origin: "Kyojuro Rengoku",
+                color: "from-red-700 via-orange-600 to-yellow-500",
+                shadow: "rgba(220, 38, 38, 0.4)",
+                forms: [
+                    { number: "1st Form", name: "Unknowing Fire", desc: "The user charges forward at high speed and decapitates the demon in a single singular slash." },
+                    { number: "2nd Form", name: "Rising Scorching Sun", desc: "An upward, arching vertical sword strike mimicking the trajectory of a rising sun." },
+                    { number: "3rd Form", name: "Blazing Universe", desc: "A massive, gravity-assisted downward vertical slash executed from an overhead position." },
+                    { number: "4th Form", name: "Blooming Flame Undulation", desc: "The user spins their sword in fluid circular motions, erecting a massive wall of fire that deflects incoming physical threats." },
+                    { number: "5th Form", name: "Flame Tiger", desc: "A series of continuous, violent forward slashes that take the shape of a burning tiger." },
+                    { number: "9th Form", name: "Rengoku (Purgatory)", desc: "The ultimate technique. The user initiates an explosive dash from a crouched stance, unleashing a devastating, world-shaking slash that completely hollows out the environment." }
+                ]
+            }
+        ];
+
+        let activeStyle = 'all';
+
+        // Initialize App UI components
+        function initApp() {
+            renderFilters();
+            renderCards();
+        }
+
+        // Render dynamic category filter buttons
+        function renderFilters() {
+            const filterContainer = document.getElementById('styleFilters');
+            breathingData.forEach(data => {
+                const btn = document.createElement('button');
+                btn.onclick = () => filterStyle(data.style);
+                btn.className = `filter-btn bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-xs font-bold tracking-wider uppercase px-4 py-3 rounded-xl transition-all whitespace-nowrap`;
+                btn.innerText = data.style.split(' ')[0]; // Just use the primary name e.g. "Sun"
+                btn.setAttribute('data-style', data.style);
+                filterContainer.appendChild(btn);
+            });
+        }
+
+        // Core render system for forms layout
+        function renderCards() {
+            const grid = document.getElementById('codexGrid');
+            grid.innerHTML = '';
+            const searchVal = document.getElementById('formSearch').value.toLowerCase();
+
+            breathingData.forEach(styleGroup => {
+                // Style filter check
+                if (activeStyle !== 'all' && styleGroup.style !== activeStyle) return;
+
+                // Track and structure matched forms
+                let formsHTML = '';
+                let matchingFormsCount = 0;
+
+                styleGroup.forms.forEach(form => {
+                    const matchesSearch = form.name.toLowerCase().includes(searchVal) || 
+                                          form.number.toLowerCase().includes(searchVal) || 
+                                          form.desc.toLowerCase().includes(searchVal) ||
+                                          styleGroup.style.toLowerCase().includes(searchVal);
+                    
+                    if (!matchesSearch) return;
+                    matchingFormsCount++;
+
+                    formsHTML += `
+                        <div class="group border-b border-zinc-900/60 last:border-0 pb-3 pt-2">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-xs font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r ${styleGroup.color} uppercase">${form.number}</span>
+                                <span class="font-cinzel text-sm font-bold tracking-wide text-zinc-200 group-hover:text-white transition-colors">${form.name}</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed font-light">${form.desc}</p>
+                        </div>
+                    `;
+                });
+
+                if (matchingFormsCount === 0) return; // Hide card entirely if search fails matching criteria
+
+                // Create container element for specific Breathing Style
+                const section = document.createElement('div');
+                section.className = `breathing-card bg-zinc-950 border border-zinc-900 rounded-2xl p-5 relative overflow-hidden transition-all duration-300 shadow-xl`;
+                section.style.boxShadow = `0 10px 30px -15px ${styleGroup.shadow}`;
+
+                // Gradient Accent Lines
+                const accentLine = document.createElement('div');
+                accentLine.className = `absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${styleGroup.color}`;
+                section.appendChild(accentLine);
+
+                // Append constructed inner contents cleanly
+                section.innerHTML += `
+                    <div class="mb-4">
+                        <h3 class="font-cinzel text-xl font-black text-white tracking-wider flex items-center justify-between">
+                            ${styleGroup.style}
+                        </h3>
+                        <p class="text-[10px] tracking-widest text-zinc-500 uppercase mt-0.5">Known Progenitor: ${styleGroup.origin}</p>
+                    </div>
+                    <div class="space-y-3 max-h-[380px] overflow-y-auto pr-1 scrollbar-custom">
+                        ${formsHTML}
+                    </div>
+                `;
+                grid.appendChild(section);
+            });
+        }
+
+        // Filtering Handler Functions
+        function filterStyle(styleName) {
+            activeStyle = styleName;
+            
+            // Highlight handling
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                const targetStyle = btn.getAttribute('data-style');
+                if (styleName === 'all' && targetStyle === 'all') {
+                    btn.className = "filter-btn bg-orange-600 text-white text-xs font-bold tracking-wider uppercase px-4 py-3 rounded-xl transition-all whitespace-nowrap";
+                } else if (targetStyle === styleName) {
+                    btn.className = "filter-btn bg-zinc-100 text-zinc-950 text-xs font-bold tracking-wider uppercase px-4 py-3 rounded-xl transition-all whitespace-nowrap";
+                } else {
+                    btn.className = "filter-btn bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white text-xs font-bold tracking-wider uppercase px-4 py-3 rounded-xl transition-all whitespace-nowrap";
+                }
+            });
+            renderCards();
+        }
+
+        function filterForms() {
+            renderCards();
+        }
+
+        // Kick off app on compile
+        initApp();
+    </script>
+</body>
+</html>
